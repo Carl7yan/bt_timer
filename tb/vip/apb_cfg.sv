@@ -19,12 +19,14 @@
 
 
 class apb_cfg extends uvm_object;
+  rand bit [31:0] pwdata_cfg;
   rand bit [11:2] paddr_cfg;
   bit psel_cfg;
 
   uvm_active_passive_enum is_active = UVM_ACTIVE;
 
   `uvm_object_utils_begin(apb_cfg)
+    `uvm_field_int(pwdata_cfg, UVM_DEFAULT)
     `uvm_field_int(paddr_cfg, UVM_DEFAULT)
     `uvm_field_int(psel_cfg, UVM_DEFAULT)
     `uvm_field_enum(uvm_active_passive_enum, is_active, UVM_ALL_ON)
