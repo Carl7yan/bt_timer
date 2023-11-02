@@ -49,7 +49,12 @@ endclass
       `APB_DRV_IF.pwrite <= req.pwrite;
       `APB_DRV_IF.paddr  <= req.paddr;
       `APB_DRV_IF.pwdata <= req.pwdata;
+      // access state
       @(posedge apb_vif.pclk);
+      `APB_DRV_IF.penable    <= 1;
+      wait(`APB_DRV_IF.pready)
+      `APB_DRV_IF.psel       <= 0;
+      `APB_DRV_IF.penable    <= 0;
       
       
     endtask
