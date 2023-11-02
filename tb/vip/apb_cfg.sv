@@ -30,7 +30,7 @@ class apb_cfg extends uvm_object;
     `uvm_field_enum(uvm_active_passive_enum, is_active, UVM_ALL_ON)
   `uvm_object_utils_end
   
-  function void ADDR_Calc();
+  function void ADDR_CALC();
     if((paddr_cfg>=`CRTL_ADDR)&&(paddr_cfg<=`INT_ADDR))||((paddr_cfg>=`PID4)&&(paddr_cfg<=`CID3))
       psel_cfg=1;
   endfunction
