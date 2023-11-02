@@ -29,8 +29,8 @@ endclass
 
     task apb_drv::run_phase(uvm_phase phase);
       apb_trans req;
+      @(posedge apb_vif.pclkg iff apb_vif.presetn)
       forever begin
-        @(posedge apb_vif.pclkg iff apb_vif.presetn)
         `APB_DRV_IF.psel    <= 0;
         `APB_DRV_IF.penable <= 0;
         `APB_DRV_IF.pwrite  <= 0;
@@ -38,23 +38,23 @@ endclass
         `APB_DRV_IF.paddr   <= 0;
 
         seq_item_port.get_next_item(req);
-        drive(req);
+        if(apb_cfg.psel_cfg)
+          drive(req);
         `uvm_info("APB_DRV", $sformatf("APB driver finished driving transfer \n%s", req.sprint()), UVM_HIGH)
         seq_item_port.item_done();
       end
     endtask
 
     task apb_drv::drive(apb_trans req);
-      `APB_DRV_IF.psel   <= apb_cfg.psel_cfg;
-      `APB_DRV_IF.pwrite <= req.pwrite;
-      `APB_DRV_IF.paddr  <= req.paddr;
-      `APB_DRV_IF.pwdata <= req.pwdata;
-      // access state
-      @(posedge apb_vif.pclk);
-      `APB_DRV_IF.penable    <= 1;
-      wait(`APB_DRV_IF.pready)
-      `APB_DRV_IF.psel       <= 0;
-      `APB_DRV_IF.penable    <= 0;
-      
-      
+          `APB_DRV_IF.psel   <= apb_cfg.psel_cfg;
+          `APB_DRV_IF.pwrite <= req.pwrite;
+          `APB_DRV_IF.paddr  <= req.paddr;
+          `APB_DRV_IF.pwdata <= req.pwdata;
+          // access state
+          @(posedge apb_vif.pclk);
+          `APB_DRV_IF.penable    <= 1;
+          wait(`APB_DRV_IF.pready)
+          @(posedge apb_vif.pclk);
+          `APB_DRV_IF.psel       <= 0;
+          `APB_DRV_IF.penable    <= 0;
     endtask
