@@ -10,6 +10,8 @@ class scb extends uvm_scoreboard;
   logic [31:0] pwdata_r;
   logic [31:0] prdata_r;
 
+  logic ref_value;
+
   uvm_analysis_imp_apbmon #(apb_trans, scb) item_imp_apbmon;
   uvm_analysis_imp_timermon #(timer_trans, scb) item_imp_timermon;
 
@@ -25,6 +27,7 @@ class scb extends uvm_scoreboard;
 
 endclass
 
+    // you can directly make a comparation in write() methods; 
     function void scb::write_apbmon(apb_trans pkt);
       apb_mon_pkt_q.push_back(pkt);
       `uvm_info(get_full_name(), "scb got apb trans" UVM_MEDIUM)
@@ -55,8 +58,19 @@ endclass
         end
         wait(timer_mon_pkt_q.size() > 0);
         timer_mon_pkt = timer_mon_pkt_q.pop_front();
-        compare();
+        // when should int be asserted?
+        if(int_flag???)
+          ref_value=1;
+        else
+          ref_value=0;
+        compare(ref_value, timer_mon_pkt.timerint);
       end
     endtask
 
-      function void scb::compare();
+      function void scb::compare(logic ref_value, logic timerint);
+      // check
+        if(timerint!=ref_value)
+        `uvm_error("SCBD", $sformatf("ERROR! ref_value=%0d, but timerint=%0d", ref_value, timerint))
+      else
+        `uvm_info("SCBD", $sformatf("PASS! ref_value=%d, timerint=%d", ref_value, timerint), UVM_HIGH)
+    endfunction
