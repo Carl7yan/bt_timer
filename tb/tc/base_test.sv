@@ -2,6 +2,7 @@ class base_test extends uvm_test;
   `uvm_component_utils(base_test)
   env env0;
   apb_cfg apb_cfg0;
+  virtual apb_if apb_vif;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
@@ -13,6 +14,9 @@ class base_test extends uvm_test;
 
     apb_cfg0=new();
     uvm_config_db#(apb_cfg)::set(this, "*", "apb_cfg", apb_cfg0);
+
+    if(!uvm_config_db#(virtual apb_if)::get(this, "", "apb_vif", apb_vif))
+      `uvm_fatal("TEST", "Did not get apb_vif")
     set_config_params();
   endfunction
 
@@ -26,6 +30,15 @@ class base_test extends uvm_test;
     end
   endfunction
 
+  virtual task run_phase(uvm_phase phase);
+    phase.raise_objection(this);
+      apb_vif.presetn <= 0;
+      repeat(10) @(posedge apb_vif.pclk)
+      apb_vif.presetn <= 1;
+      repeat(10) @(posedge apb_vif.pclk)
+    phase.drop_objection(this);
+  endtask
+      
   function report_phase(uvm_phase phase);
     uvm_report_server svr;
     super.report_phase(phase);
