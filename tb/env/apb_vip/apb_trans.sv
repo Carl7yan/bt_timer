@@ -27,4 +27,10 @@ class apb_trans extends uvm_sequence_item;
       $sformatf("pwrite=%s pwdata=%s paddr=%s prdata=%s pready=%s pslverr=%s",
          this.pwrite, this.pwdata, this.paddr, this,prdata, this.pready, this.pslverr)
     };
+  endfunction
+
+  virtual function string convert2string_2();
+    return $sformatf("pwrite=%s pwdata=%s paddr=%s prdata=%s pready=%s pslverr=%s",
+             this.pwrite, this.pwdata, this.paddr, this,prdata, this.pready, this.pslverr)
+  endfunction
 endclass
