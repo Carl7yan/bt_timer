@@ -24,9 +24,9 @@ endclass
 
     function void env::connect_phase(uvm_phase phase);
       super.connect_phase(phase);
-      apb_agt_e.mon.item_port.connect(scb_e.item_imp_apbmon);
-      timer_agt_e.mon.item_port.connect(scb_e.item_imp_timermon);
+      apb_agt_e.mon.apb_item_port_mon.connect(scb_e.item_imp_apbmon);
+      timer_agt_e.mon.timer_item_port_mon.connect(scb_e.item_imp_timermon);
 
-      uvm_config_db#(apb_sequencer)::set(this,"*","apb_sqr",apb_agnt.sequencer);
-      uvm_config_db#(timer_sequencer)::set(this,"*","timer_sqr",timer_agnt.sequencer);
+      uvm_config_db#(apb_sqr)::set(this,"*","apb_sqr",apb_agt_e.sequencer);
+      uvm_config_db#(timer_sqr)::set(this,"*","timer_sqr",timer_agt_e.sequencer);
     endfunction
