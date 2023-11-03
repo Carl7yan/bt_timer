@@ -18,6 +18,8 @@ class apb_wr_test extends base_test;
     phase.raise_objection(.obj(this));
     apb_wr_seq_v0.start(env0.vsqr_e);
     phase.drop_objection(.obj(this));
+    
+    phase.phase_done.set_drain_time(this, 20);
   endtask
-  phase.phase_done.set_drain_time(this, 20);
+
 endclass
