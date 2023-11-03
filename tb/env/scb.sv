@@ -12,18 +12,31 @@ class scb extends uvm_scoreboard;
 
   logic ref_value;
 
+  apb_trans apb_cov_trans;
+  timer_trans timer_cov_trans;
+  covergroup cov;
+    a: coverpoint apb_cov_trans.pwrite;
+    b: coverpoint apb_cov_trans.paddr;
+    c: coverpoint apb_cov_trans.pwdata;
+    d: coverpoint apb_cov_trans.prdata;
+    e: coverpoint timer_cov_trans.extin;
+    f: coverpoint timer_cov_trans.timerint;
+    cross a, b;
+  endgroup
+
   uvm_analysis_imp_apbmon #(apb_trans, scb) item_imp_apbmon;
   uvm_analysis_imp_timermon #(timer_trans, scb) item_imp_timermon;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
+    cov = new();
   endfunction
 
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual function void write_apbmon(apb_trans pkt);
   extern virtual function void write_timermon(timer_trans pkt);
   extern virtual function void run_phase(uvm_phase phase);
-    extern virtual function void compare();
+  extern virtual function void compare();
 
 endclass
 
@@ -50,6 +63,8 @@ endclass
       forever begin
         wait(apb_mon_pkt_q.size() > 0);
         apb_mon_pkt = apb_mon_pkt_q.pop_front();
+	apb_cov_trans = apb_mon_pkt;
+	cov.sample();
         if(apb_mon_pkt.pwrite == 1) begin
           paddr_r = apb_mon_pkt.paddr;
           pwdata_r = apb_mon_pkt.pwdata;
@@ -58,6 +73,8 @@ endclass
         end
         wait(timer_mon_pkt_q.size() > 0);
         timer_mon_pkt = timer_mon_pkt_q.pop_front();
+	timer_cov_trans= timer_mon_pkt;
+	cov.sample();
         // when should int be asserted?
         if(int_flag???)
           ref_value=1;
