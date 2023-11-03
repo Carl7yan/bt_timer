@@ -37,6 +37,7 @@ endclass
         `APB_DRV_IF.pwdata  <= 0;
         `APB_DRV_IF.paddr   <= 0;
 
+        `uvm_info(get_full_name(), $sformatf("wait for item from sqr"), UVM_HIGH)
         seq_item_port.get_next_item(req);
         if(apb_cfg.psel_cfg)
           drive(req);
