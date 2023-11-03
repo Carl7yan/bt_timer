@@ -5,12 +5,12 @@ class apb_mon extends uvm_monitor;
   virtual apb_if apb_vif;
   apb_trans mon_trans;
 
-  uvm_analysis_port #(apb_trans) item_port_mon;
+  uvm_analysis_port #(apb_trans) apb_item_port_mon;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
     mon_trans = new();
-    item_port_mon = new("item_port_mon", this);
+    apb_item_port_mon = new("apb_item_port_mon", this);
   endfunction
 
   extern virtual function void build_phase(uvm_phase phase);
@@ -36,6 +36,6 @@ endclass
         mon_trans.pslverr = `APB_MON_IF.pslverr;
         `uvm_info(get_type_name(), {"APB Mon finished collecting transfer: \n", mon_trans.sprint()}, UVM_HIGH)
 
-        item_port_mon.write(mon_trans);
+        apb_item_port_mon.write(mon_trans);
       end
     endtask
