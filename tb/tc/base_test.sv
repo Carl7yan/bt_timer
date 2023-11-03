@@ -34,12 +34,12 @@ class base_test extends uvm_test;
     if((svr.get_severity_count(UVM_FATAL) + svr.get_severity_count(UVM_ERROR)) > 0) begin
       `uvm_info(get_type_name(), "---------------------------------------", UVM_NONE)
       `uvm_info(get_type_name(), "----            TEST FAIL          ----", UVM_NONE)
-	   	`uvm_info(get_type_name(), "---------------------------------------", UVM_NONE)
+      `uvm_info(get_type_name(), "---------------------------------------", UVM_NONE)
     end else begin
-	   	`uvm_info(get_type_name(), "---------------------------------------", UVM_NONE)
-	   	`uvm_info(get_type_name(), "----           TEST PASS           ----", UVM_NONE)
-	   	`uvm_info(get_type_name(), "---------------------------------------", UVM_NONE)
-	  end
+      `uvm_info(get_type_name(), "---------------------------------------", UVM_NONE)
+      `uvm_info(get_type_name(), "----           TEST PASS           ----", UVM_NONE)
+      `uvm_info(get_type_name(), "---------------------------------------", UVM_NONE)
+    end
   endfunction
 
 endclass
