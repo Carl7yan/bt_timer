@@ -13,6 +13,10 @@ class apb_trans extends uvm_sequence_item;
     super.new(name);
   endfunction
 
+  constraint c1 {
+    pwrite dist {0:/20, 1:/80};
+  }
+
   `uvn_object_utils_begin(apb_trans)
     `uvm_field_int(,UVM_ALL_ON)
   `uvm_object_utils_end
