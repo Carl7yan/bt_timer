@@ -35,6 +35,7 @@ endclass
         mon_trans.pready  = `APB_MON_IF.pready;
         mon_trans.pslverr = `APB_MON_IF.pslverr;
         `uvm_info(get_type_name(), {"APB Mon finished collecting transfer: \n", mon_trans.sprint()}, UVM_HIGH)
+        `uvm_info("MON", $sformatf("get item $s", mon_trans.convert2str()), UVM_HIGH)
 
         apb_item_port_mon.write(mon_trans);
       end
