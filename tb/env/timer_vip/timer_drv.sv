@@ -19,7 +19,7 @@ endclass
 
     function void timer_drv::connect_phase(uvm_phase phase);
       super.connect_phase(phase);
-      if(!uvm_config_db#(virtual timer_if)::get(this, "", "timer_vif" timer_vif))
+      if(!uvm_config_db#(virtual timer_if)::get(this, "", "timer_vif", timer_vif))
         `uvm_fatal("No vif",{"virtual if must be set for: ", get_full_name(), ".timer_vif"});
     endfunction
 

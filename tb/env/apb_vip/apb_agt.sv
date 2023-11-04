@@ -17,10 +17,10 @@ endclass
     super.build_phase(phase);
     mon = apb_mon::type_id::create("mon", this);
 
-    if(!uvm_config_db#(apb_cfg)::get(this, "", "apb_cfg", apb_cfg))
+    if(!uvm_config_db#(apb_cfg)::get(this, "", "apb_cfg", cfg))
       `uvm_fatal("No cfg", {"apb_cfg must be set for: ", get_full_name(), ".apb_cfg"});
 
-    if(apb_cfg.is_active == UVM_ACTIVE) begin
+    if(cfg.is_active == UVM_ACTIVE) begin
       drv = apb_drv::type_id::create("drv", this);
       sqr = apb_sqr::type_id::create("sqr", this);
     end
@@ -28,6 +28,6 @@ endclass
 
   function void apb_agt::connect_phase(uvm_phase phase);
     //super.connect_phase(phase);
-    if(apb_cfg.is_active == UVM_ACTIVE)
+    if(cfg.is_active == UVM_ACTIVE)
       drv.seq_item_port.connect(sqr.seq_item_export);
   endfunction

@@ -4,7 +4,7 @@ Command: vcs +v2k -full64 -sverilog -timescale=1ns/1ns +plusarg_save -debug_acce
 -l vcs_comp.log +vcs+lic+waity +lint=TFIPC-L -top tb -f ../filelist/rtl_list.f -f \
 ../filelist/tb_list.f
                          Chronologic VCS (TM)
-       Version M-2017.03-SP2_Full64 -- Sat Nov  4 15:47:18 2023
+       Version M-2017.03-SP2_Full64 -- Sat Nov  4 16:29:00 2023
                Copyright (c) 1991-2017 by Synopsys Inc.
                          ALL RIGHTS RESERVED
 
@@ -308,13 +308,25 @@ Parsing design file '../tb/env/apb_vip/apb_trans.sv'
 Parsing included file '/opt/uvm-1.2/src/uvm_macros.svh'.
 Back to file '../tb/env/apb_vip/apb_trans.sv'.
 Parsing design file '../tb/env/apb_vip/apb_cfg.sv'
+Parsing design file '../tb/env/apb_vip/apb_drv.sv'
+Parsing design file '../tb/env/apb_vip/apb_mon.sv'
+Parsing design file '../tb/env/apb_vip/apb_sqr.sv'
+Parsing design file '../tb/env/apb_vip/apb_agt.sv'
+Parsing design file '../tb/env/apb_vip/apb_seq.sv'
+Parsing design file '../tb/env/timer_vip/timer_trans.sv'
+Parsing design file '../tb/env/timer_vip/timer_drv.sv'
+Parsing design file '../tb/env/timer_vip/timer_mon.sv'
+Parsing design file '../tb/env/timer_vip/timer_sqr.sv'
+Parsing design file '../tb/env/timer_vip/timer_agt.sv'
+Parsing design file '../tb/env/timer_vip/timer_seq.sv'
+Parsing design file '../tb/env/scb.sv'
 
-Error-[UM] Undefined macro
-../tb/env/apb_vip/apb_cfg.sv, 36
-  Undefined macro exists as: 'CRTL_ADDR'   
-  "../tb/env/apb_vip/apb_cfg.sv", 36: token is '`CRTL_ADDR'
-      if((paddr_cfg>=`CRTL_ADDR)&&(paddr_cfg<=`INT_ADDR))||((paddr_cfg>=`PID4)&&(paddr_cfg<=`CID3))
-                               ^
+Error-[MAM] Macro argument number mismatch
+../tb/env/scb.sv, 46
+  Macro argument number mismatch for macro 'uvm_info' 
+  "../tb/env/scb.sv", 46: token is ')'
+        `uvm_info(get_full_name(), "scb got apb trans" UVM_MEDIUM)
+                                                                  ^
 
 1 error
-CPU time: .896 seconds to compile
+CPU time: .845 seconds to compile

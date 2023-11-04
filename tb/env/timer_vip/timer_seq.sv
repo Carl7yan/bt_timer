@@ -1,5 +1,5 @@
 class timer_wr_extin1_seq extends uvm_sequence #(timer_trans);
-  `uvm_object_utils(timer_wr_seq)
+  `uvm_object_utils(timer_wr_extin1_seq)
 
   timer_trans trans;
 
@@ -11,7 +11,7 @@ class timer_wr_extin1_seq extends uvm_sequence #(timer_trans);
 endclass
 
 class timer_wr_extin0_seq extends uvm_sequence #(timer_trans);
-  `uvm_object_utils(timer_wr_seq)
+  `uvm_object_utils(timer_wr_extin0_seq)
 
   timer_trans trans;
 
@@ -22,15 +22,14 @@ class timer_wr_extin0_seq extends uvm_sequence #(timer_trans);
   extern virtual task body();
 endclass
 
-task timer_extin1_seq::body();
+task timer_wr_extin1_seq::body();
   trans = timer_trans::type_id::create("trans");
-  
+
   `uvm_do_with(trans, { trans.extin==1;})
 endtask
 
-task timer_extin0_seq::body();
+task timer_wr_extin0_seq::body();
   trans = timer_trans::type_id::create("trans");
-  
+
   `uvm_do_with(trans, { trans.extin==0;})
 endtask
-

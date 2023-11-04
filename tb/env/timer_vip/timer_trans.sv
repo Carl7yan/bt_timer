@@ -9,8 +9,9 @@ class timer_trans extends uvm_sequence_item;
     super.new(name);
   endfunction
 
-  `uvn_object_utils_begin(apb_trans)
-    `uvm_field_int(,UVM_ALL_ON)
+  `uvm_object_utils_begin(timer_trans)
+    `uvm_field_int(extin,UVM_ALL_ON)
+    `uvm_field_int(timerint,UVM_ALL_ON)
   `uvm_object_utils_end
 
   virtual function string convert2string();
@@ -18,4 +19,5 @@ class timer_trans extends uvm_sequence_item;
       super.convert2string(),
       $sformatf("extin=%s timerint=%s", this.extin, this.timerint)
     };
+  endfunction
 endclass
