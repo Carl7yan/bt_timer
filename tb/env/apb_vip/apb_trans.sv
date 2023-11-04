@@ -1,5 +1,5 @@
-// `include "uvm_macros.svh"
-// import uvm_pkg::*;
+`include "uvm_macros.svh"
+import uvm_pkg::*;
 
 class apb_trans extends uvm_sequence_item;
   rand logic pwrite;
@@ -17,8 +17,13 @@ class apb_trans extends uvm_sequence_item;
     pwrite dist {0:/20, 1:/80};
   }
 
-  `uvn_object_utils_begin(apb_trans)
-    `uvm_field_int(,UVM_ALL_ON)
+  `uvm_object_utils_begin(apb_trans)
+    `uvm_field_int(pwrite,UVM_ALL_ON)
+    `uvm_field_int(paddr,UVM_ALL_ON)
+    `uvm_field_int(pwdata,UVM_ALL_ON)
+    `uvm_field_int(prdata,UVM_ALL_ON)
+    `uvm_field_int(pready,UVM_ALL_ON)
+    `uvm_field_int(pslverr,UVM_ALL_ON)
   `uvm_object_utils_end
 
   virtual function string convert2string();
@@ -31,6 +36,6 @@ class apb_trans extends uvm_sequence_item;
 
   virtual function string convert2string_2();
     return $sformatf("pwrite=%s pwdata=%s paddr=%s prdata=%s pready=%s pslverr=%s",
-             this.pwrite, this.pwdata, this.paddr, this,prdata, this.pready, this.pslverr)
+      this.pwrite, this.pwdata, this.paddr, this,prdata, this.pready, this.pslverr);
   endfunction
 endclass

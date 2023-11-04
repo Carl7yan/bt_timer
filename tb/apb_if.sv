@@ -1,5 +1,4 @@
-interface apb_if(input pclkg);
-  logic presetn;
+interface apb_if(input pclkg, input presetn);
   logic psel;
   logic penable;
   logic pwrite;
@@ -8,10 +7,9 @@ interface apb_if(input pclkg);
   logic [31:0] prdata;
   logic pready;
   logic pslverr;
-  
+
   clocking drv_cb @(posedge pclkg);
     default input #1 output #1;
-    output presetn;
     output psel;
     output penable;
     output pwrite;
@@ -24,7 +22,6 @@ interface apb_if(input pclkg);
 
   clocking mon_cb @(posedge pclkg);
     default input #1;
-    input preestn;
     input psel;
     input penable;
     input pwrite;
@@ -34,5 +31,5 @@ interface apb_if(input pclkg);
     input pslverr;
     input prdata;
   endclocking
-  
+
 endinterface
