@@ -35,22 +35,22 @@ class scb extends uvm_scoreboard;
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual function void write_apbmon(apb_trans pkt);
   extern virtual function void write_timermon(timer_trans pkt);
-  extern virtual function void run_phase(uvm_phase phase);
-  extern virtual function void compare();
+  extern virtual task run_phase(uvm_phase phase);
+  extern virtual function void compare(logic ref_value, logic timerint);
 
 endclass
 
-    // you can directly make a comparation in write() methods; 
+    // you can directly make a comparation in write() methods;
     function void scb::write_apbmon(apb_trans pkt);
       apb_mon_pkt_q.push_back(pkt);
-      `uvm_info(get_full_name(), "scb got apb trans" UVM_MEDIUM)
+      `uvm_info(get_full_name(), "scb got apb trans", UVM_MEDIUM)
     endfunction
 
     function void scb::write_timermon(timer_trans pkt);
       timer_mon_pkt_q.push_back(pkt);
-      `uvm_info(get_full_name(), "scb got timer trans" UVM_MEDIUM)
+      `uvm_info(get_full_name(), "scb got timer trans", UVM_MEDIUM)
     endfunction
-    
+
     function void scb::build_phase(uvm_phase phase);
       super.build_phase(phase);
       item_imp_apbmon = new("item_imp_apbmon", this);
@@ -76,10 +76,10 @@ endclass
 	timer_cov_trans= timer_mon_pkt;
 	cov.sample();
         // when should int be asserted?
-        if(int_flag???)
-          ref_value=1;
-        else
-          ref_value=0;
+        //if(int_flag???)
+        //  ref_value=1;
+        //else
+        //  ref_value=0;
         compare(ref_value, timer_mon_pkt.timerint);
       end
     endtask

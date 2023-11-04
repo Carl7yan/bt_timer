@@ -4,7 +4,7 @@ Command: vcs +v2k -full64 -sverilog -timescale=1ns/1ns +plusarg_save -debug_acce
 -l vcs_comp.log +vcs+lic+waity +lint=TFIPC-L -top tb -f ../filelist/rtl_list.f -f \
 ../filelist/tb_list.f
                          Chronologic VCS (TM)
-       Version M-2017.03-SP2_Full64 -- Sat Nov  4 16:29:00 2023
+       Version M-2017.03-SP2_Full64 -- Sat Nov  4 22:51:33 2023
                Copyright (c) 1991-2017 by Synopsys Inc.
                          ALL RIGHTS RESERVED
 
@@ -320,13 +320,63 @@ Parsing design file '../tb/env/timer_vip/timer_sqr.sv'
 Parsing design file '../tb/env/timer_vip/timer_agt.sv'
 Parsing design file '../tb/env/timer_vip/timer_seq.sv'
 Parsing design file '../tb/env/scb.sv'
+Parsing design file '../tb/env/vsqr.sv'
+Parsing design file '../tb/env/env.sv'
+Parsing design file '../tc/base_test.sv'
+Parsing design file '../tc/vseq.sv'
+Parsing design file '../tc/apb_rd_test.sv'
+Parsing design file '../tc/apb_wr_test.sv'
+Parsing design file '../tc/timer_wr_extin0_test.sv'
+Parsing design file '../tc/timer_wr_extin1_test.sv'
+Parsing design file '../tb/tb.sv'
+Top Level Modules:
+       tb
+TimeScale is 1 ns / 1 ns
 
-Error-[MAM] Macro argument number mismatch
-../tb/env/scb.sv, 46
-  Macro argument number mismatch for macro 'uvm_info' 
-  "../tb/env/scb.sv", 46: token is ')'
-        `uvm_info(get_full_name(), "scb got apb trans" UVM_MEDIUM)
-                                                                  ^
+Lint-[TFIPC-L] Too few instance port connections
+../tb/tb.sv, 23
+"cmsdk_apb_timer dut();"
+  The above instance has fewer port connections than the module definition,
+  all ports are not connected.
 
-1 error
-CPU time: .845 seconds to compile
+
+Warning-[MATN] More arguments than needed
+../tb/env/apb_vip/apb_trans.sv, 32
+"this.pslverr"
+  More arguments than format specifiers in format string. Expecting 6 only.
+
+
+Warning-[MATN] More arguments than needed
+../tb/env/apb_vip/apb_trans.sv, 38
+"this.pslverr"
+  More arguments than format specifiers in format string. Expecting 6 only.
+
+Starting vcs inline pass...
+6 unique modules to generate
+recompiling package vcs_paramclassrepository
+recompiling package _vcs_DPI_package
+recompiling package uvm_pkg
+recompiling module apb_if
+recompiling module timer_if
+recompiling module tb
+All of 6 modules done
+make[1]: Entering directory '/home/host/app_download/work/github_carl7yan/bt_timer/sim/csrc' \
+
+rm -f _csrc*.so pre_vcsobj_*.so share_vcsobj_*.so
+g++ -w  -pipe -fPIC -DVCS -O -I/opt/synopsys/vcs/include    -c /opt/uvm-1.2/src/dpi/uvm_dpi.cc \
+
+if [ -x ../simv ]; then chmod -x ../simv; fi
+g++  -o ../simv   -Wl,-rpath-link=./ -Wl,-rpath='$ORIGIN'/simv.daidir/ -Wl,-rpath=./simv.daidir/ \
+-Wl,-rpath='$ORIGIN'/simv.daidir//scsim.db.dir  -rdynamic  uvm_dpi.o   objs/amcQw_d.o \
+_31460_archive_1.so  SIM_l.o      rmapats_mop.o rmapats.o rmar.o rmar_nd.o  rmar_llvm_0_1.o \
+rmar_llvm_0_0.o          /opt/synopsys/vcs/linux64/lib/libzerosoft_rt_stubs.so /opt/synopsys/vcs/linux64/lib/libvirsim.so \
+/opt/synopsys/vcs/linux64/lib/liberrorinf.so /opt/synopsys/vcs/linux64/lib/libsnpsmalloc.so \
+/opt/synopsys/verdi/share/PLI/VCS/LINUX64/pli.a    /opt/synopsys/vcs/linux64/lib/libvcsnew.so \
+/opt/synopsys/vcs/linux64/lib/libsimprofile.so /opt/synopsys/vcs/linux64/lib/libuclinative.so \
+/opt/synopsys/vcs/linux64/lib/vcs_tls.o   -Wl,-whole-archive /opt/synopsys/vcs/linux64/lib/libvcsucli.so \
+-Wl,-no-whole-archive       ./../simv.daidir/vc_hdrs.o  _vcs_pli_stub_.o   /opt/synopsys/vcs/linux64/lib/vcs_save_restore_new.o \
+/opt/synopsys/verdi/share/PLI/VCS/LINUX64/pli.a -ldl -lm  -lc -lpthread -ldl 
+../simv up to date
+make[1]: Leaving directory '/home/host/app_download/work/github_carl7yan/bt_timer/sim/csrc' \
+
+CPU time: 10.837 seconds to compile + .422 seconds to elab + .790 seconds to link

@@ -1,3 +1,5 @@
+`define APB_DRV_CB apb_vif.drv_cb
+
 class base_test extends uvm_test;
   `uvm_component_utils(base_test)
   env env0;
@@ -8,7 +10,7 @@ class base_test extends uvm_test;
     super.new(name, parent);
   endfunction
 
-  function build_phase(uvm_phase phase);
+  function void build_phase(uvm_phase phase);
     super.build_phase(phase);
     env0 = env::type_id::create("env0", this);
 
@@ -17,7 +19,7 @@ class base_test extends uvm_test;
 
     if(!uvm_config_db#(virtual apb_if)::get(this, "", "apb_vif", apb_vif))
       `uvm_fatal("TEST", "Did not get apb_vif")
-    set_config_params();
+    //set_config_params();
   endfunction
 
   function set_config_params(input bit [31:0] pwdata_cfg, input bit [11:2] paddr_cfg, input bit randomize_flag);
@@ -25,21 +27,21 @@ class base_test extends uvm_test;
       if(!apb_cfg0.randomize())
         `uvm_error("RANDOM FAIL", "apb_cfg random failed")
     end else begin
-      cfg.pwdata_cfg = pwdata_cfg;
-      cfg.paddr_cfg  = paddr_cfg;
+      apb_cfg0.pwdata_cfg = pwdata_cfg;
+      apb_cfg0.paddr_cfg  = paddr_cfg;
     end
   endfunction
 
   virtual task run_phase(uvm_phase phase);
     phase.raise_objection(this);
       apb_vif.presetn <= 0;
-      repeat(10) @(posedge apb_vif.pclk)
+      repeat(10) @(`APB_DRV_CB)
       apb_vif.presetn <= 1;
-      repeat(10) @(posedge apb_vif.pclk)
+      repeat(10) @(`APB_DRV_CB)
     phase.drop_objection(this);
   endtask
-      
-  function report_phase(uvm_phase phase);
+
+  function void report_phase(uvm_phase phase);
     uvm_report_server svr;
     super.report_phase(phase);
 

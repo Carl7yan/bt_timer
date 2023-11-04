@@ -21,9 +21,9 @@
 ../tb/env/env.sv
 
 ../tc/base_test.sv
+../tc/vseq.sv
 ../tc/apb_rd_test.sv
 ../tc/apb_wr_test.sv
 ../tc/timer_wr_extin0_test.sv
 ../tc/timer_wr_extin1_test.sv
-../tc/vseq.sv
 ../tb/tb.sv

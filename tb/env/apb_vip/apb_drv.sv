@@ -1,4 +1,4 @@
-`define APB_DRV_IF apb_vif.drv_cb
+`define APB_DRV_CB apb_vif.drv_cb
 
 class apb_drv extends uvm_driver #(apb_trans);
   `uvm_component_utils(apb_drv)
@@ -31,11 +31,11 @@ endclass
       apb_trans req;
       @(posedge apb_vif.pclkg iff apb_vif.presetn)
       forever begin
-        `APB_DRV_IF.psel    <= 0;
-        `APB_DRV_IF.penable <= 0;
-        `APB_DRV_IF.pwrite  <= 0;
-        `APB_DRV_IF.pwdata  <= 0;
-        `APB_DRV_IF.paddr   <= 0;
+        `APB_DRV_CB.psel    <= 0;
+        `APB_DRV_CB.penable <= 0;
+        `APB_DRV_CB.pwrite  <= 0;
+        `APB_DRV_CB.pwdata  <= 0;
+        `APB_DRV_CB.paddr   <= 0;
 
         `uvm_info(get_full_name(), $sformatf("wait for item from sqr"), UVM_HIGH)
         seq_item_port.get_next_item(req);
@@ -47,15 +47,15 @@ endclass
     endtask
 
     task apb_drv::drive(apb_trans req);
-          `APB_DRV_IF.psel   <= apb_cfg_drv.psel_cfg;
-          `APB_DRV_IF.pwrite <= req.pwrite;
-          `APB_DRV_IF.paddr  <= req.paddr;
-          `APB_DRV_IF.pwdata <= req.pwdata;
+          `APB_DRV_CB.psel   <= apb_cfg_drv.psel_cfg;
+          `APB_DRV_CB.pwrite <= req.pwrite;
+          `APB_DRV_CB.paddr  <= req.paddr;
+          `APB_DRV_CB.pwdata <= req.pwdata;
           // access state
-          @(posedge apb_vif.pclk);
-          `APB_DRV_IF.penable    <= 1;
-          wait(`APB_DRV_IF.pready)
-          @(posedge apb_vif.pclk);
-          `APB_DRV_IF.psel       <= 0;
-          `APB_DRV_IF.penable    <= 0;
+          @(`APB_DRV_CB);
+          `APB_DRV_CB.penable    <= 1;
+          wait(`APB_DRV_CB.pready)
+          @(`APB_DRV_CB);
+          `APB_DRV_CB.psel       <= 0;
+          `APB_DRV_CB.penable    <= 0;
     endtask

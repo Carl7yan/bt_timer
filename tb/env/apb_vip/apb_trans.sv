@@ -26,16 +26,16 @@ class apb_trans extends uvm_sequence_item;
     `uvm_field_int(pslverr,UVM_ALL_ON)
   `uvm_object_utils_end
 
-  virtual function string convert2string();
-    convert2string = {
-      super.convert2string(),
-      $sformatf("pwrite=%s pwdata=%s paddr=%s prdata=%s pready=%s pslverr=%s",
+  virtual function string convert2str();
+    convert2str = {
+      //super.convert2str(),
+      $sformatf("pwrite=%d pwdata=%d paddr=%d prdata=%d pready=%d pslverr=%d",
          this.pwrite, this.pwdata, this.paddr, this,prdata, this.pready, this.pslverr)
     };
   endfunction
 
-  virtual function string convert2string_2();
-    return $sformatf("pwrite=%s pwdata=%s paddr=%s prdata=%s pready=%s pslverr=%s",
+  virtual function string convert2str_2();
+    return $sformatf("pwrite=%d pwdata=%d paddr=%d prdata=%d pready=%d pslverr=%d",
       this.pwrite, this.pwdata, this.paddr, this,prdata, this.pready, this.pslverr);
   endfunction
 endclass
