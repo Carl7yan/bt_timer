@@ -1,7 +1,10 @@
 TOP_NAME := tb
-RTL_LIST := -f ../filelist/rtl_list.f
-TB_LIST  := -f ../filelist/tb_list.f
-FILELIST := ${RTL_LIST} ${TB_LIST}
+export PROJECT= ${GITHUB}/bt_timer
+RTL_LIST := -f ${PROJECT}/filelist/rtl_list.f
+TB_LIST  := -f ${PROJECT}/filelist/tb_list.f
+CM_LIST  :=
+FILELIST := ${RTL_LIST} ${TB_LIST} ${CM_LIST}
+UVM_VERBO:= UVM_MEDIUM
 
 #####################################################3
 # common design options
@@ -33,7 +36,3 @@ ADD_LINK_LIB := [list \
 #/xx/yy/zz.db \
 #/xx/yy/aa.db \
 #]
-
-# file list group
-OPTS_SIM_LIST := ${CMODE_LIST} ${CBB_LIST} ${SIM_LIST} ${RTL_LIST}
-OPTS_CMP_LIST := ${CBB_LIST} ${SIM_LIST} ${RTL_LIST}

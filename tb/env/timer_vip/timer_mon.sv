@@ -25,6 +25,12 @@ endclass
 
     task timer_mon::run_phase(uvm_phase phase);
       forever begin
+        fork
+          @(posedge mon_trans.extin);
+          @(negedge mon_trans.extin);
+          @(posedge mon_trans.timerint);
+          @(negedge mon_trans.timerint);
+        join
         mon_trans.extin   = `TIMER_MON_IF.extin;
         mon_trans.timerint= `TIMER_MON_IF.timerint;
         `uvm_info(get_type_name(), {"TIMER Mon finished collecting transfer: \n", mon_trans.sprint()}, UVM_HIGH)

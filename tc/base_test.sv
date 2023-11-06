@@ -34,10 +34,10 @@ class base_test extends uvm_test;
 
   virtual task run_phase(uvm_phase phase);
     phase.raise_objection(this);
-      apb_vif.presetn <= 0;
-      repeat(10) @(`APB_DRV_CB)
-      apb_vif.presetn <= 1;
-      repeat(10) @(`APB_DRV_CB)
+      @(`APB_DRV_CB)
+      @(`APB_DRV_CB)
+      @(`APB_DRV_CB)
+      @(`APB_DRV_CB)
     phase.drop_objection(this);
   endtask
 
