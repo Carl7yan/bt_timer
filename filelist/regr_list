@@ -1,0 +1,5 @@
+base_test
+apb_rd_test
+apb_wr_test
+timer_wr_extin0_test
+timer_wr_extin1_test
