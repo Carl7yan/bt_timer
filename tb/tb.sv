@@ -4,14 +4,14 @@ logic pclk;
 logic presetn;
 logic pclkg;
 
-always #5 pclk = ~pclk;
 assign pclkg = pclk;
 
+parameter T_CLK = 1000/497.45; //497.45Mhz
+always #(T_CLK/2) pclk = ~pclk;
 initial begin
   pclk <= 0;
   presetn <= 0;
-  #100
-  presetn <= 1;
+  #100 presetn <= 1;
 end
 
 apb_if apb_if0(pclk,presetn);
