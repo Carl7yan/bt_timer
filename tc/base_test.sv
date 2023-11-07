@@ -46,7 +46,7 @@ class base_test extends uvm_test;
     super.report_phase(phase);
 
     svr=uvm_report_server::get_server();
-    if((svr.get_severity_count(UVM_FATAL) + svr.get_severity_count(UVM_ERROR)) > 0) begin
+    if(svr.get_severity_count(UVM_FATAL) || svr.get_severity_count(UVM_ERROR) || ERR_CNT)  begin
       `uvm_info(get_type_name(), "---------------------------------------", UVM_NONE)
       `uvm_info(get_type_name(), "----            TEST FAIL          ----", UVM_NONE)
       `uvm_info(get_type_name(), "---------------------------------------", UVM_NONE)

@@ -13,13 +13,22 @@ class apb_wr_test extends base_test;
   endfunction
 
   virtual task run_phase(uvm_phase phase);
-    //set_config_params(pwdata_cfg??, paddr_cfg??, 0);
+    fork
+      begin
+        //set_config_params(pwdata_cfg??, paddr_cfg??, 0);
 
-    phase.raise_objection(.obj(this));
-    apb_wr_seq_v0.start(env0.vsqr_e);
-    phase.drop_objection(.obj(this));
+        phase.raise_objection(.obj(this));
+        apb_wr_seq_v0.start(env0.vsqr_e);
+        phase.drop_objection(.obj(this));
 
-    phase.phase_done.set_drain_time(this, 20);
+        phase.phase_done.set_drain_time(this, 20);
+      end
+      begin
+        #1ms;
+        ERR_CNT=ERR_CNT+1;
+        `uvm_info(get_name(), "------------------timeout------------------", UVM_LOW)
+      end
+    join
   endtask
 
 endclass
