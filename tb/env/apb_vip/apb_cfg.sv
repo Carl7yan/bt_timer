@@ -8,6 +8,9 @@ class apb_cfg extends uvm_object;
   rand bit [11:2] paddr_cfg;
   bit psel_cfg;
 
+  // const bit [9:0] ctrl_addr = 10'h000>>2
+  // ...
+
   uvm_active_passive_enum is_active = UVM_ACTIVE;
 
   `uvm_object_utils_begin(apb_cfg)
@@ -21,6 +24,8 @@ class apb_cfg extends uvm_object;
     if( (paddr_cfg>=`CTRL_ADDR)&&(paddr_cfg<=`INT_ADDR) )
       psel_cfg=1;
   endfunction
+
+  constraint c_psel {psel_cfg inside {0, 1};}
 
   function new(string name = "apb_cfg");
     super.new(name);
