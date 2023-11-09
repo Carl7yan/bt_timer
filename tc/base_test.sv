@@ -2,6 +2,8 @@
 
 class base_test extends uvm_test;
   `uvm_component_utils(base_test)
+
+  int ERR_CNT;
   env env0;
   apb_cfg apb_cfg0;
   virtual apb_if apb_vif;
