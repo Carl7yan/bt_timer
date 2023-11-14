@@ -1,1 +1,1 @@
-../../Carl7yan/common/cfg.mk
+../../common/cfg.mk
