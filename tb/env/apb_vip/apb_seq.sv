@@ -1,3 +1,19 @@
+class apb_base_seq extends uvm_sequence #(apb_trans);
+  `uvm_object_utils(apb_base_seq)
+  `uvm_declare_p_sequencer(apb_sqr)
+
+  function new(string name = "apb_base_seq");
+    super.new(name);
+  endfunction
+
+  virtual task body();
+    wait_for_grant();
+    req.randomize();
+    send_request(req);
+    wait_for_item_done();
+  endtask
+endclass
+
 class apb_wr_seq extends uvm_sequence #(apb_trans);
   `uvm_object_utils(apb_wr_seq)
 
