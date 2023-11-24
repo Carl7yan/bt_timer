@@ -1,1 +1,1 @@
-${GITHUB}/bt_timer/dut/cmsdk_apb_timer.v
+${GITHUB}/bt_timer/rtl/cmsdk_apb_timer.v
