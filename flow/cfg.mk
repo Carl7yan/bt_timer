@@ -1,1 +1,1 @@
-../../common/cfg.mk
+../../common/3cfg.mk
