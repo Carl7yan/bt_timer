@@ -20,7 +20,7 @@ class timer_ral_test extends base_test;
     //Setting sequence in reg_seq
     reg_seq.regmodel       = env0.regmodel;
     reg_seq.starting_phase = phase;
-    reg_seq.start(env0.apb_agent_e.sqr); 
+    reg_seq.start(env0.apb_agt_e.sqr);
 
     phase.drop_objection(this);
 

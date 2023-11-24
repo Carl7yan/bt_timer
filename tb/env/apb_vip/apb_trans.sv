@@ -1,6 +1,3 @@
-`include "uvm_macros.svh"
-import uvm_pkg::*;
-
 class apb_trans extends uvm_sequence_item;
   rand logic pwrite;
   rand logic [31:0] pwdata;

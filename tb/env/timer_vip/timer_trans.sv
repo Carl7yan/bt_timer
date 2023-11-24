@@ -1,6 +1,3 @@
-// `include "uvm_macros.svh"
-// import uvm_pkg::*;
-
 class timer_trans extends uvm_sequence_item;
   rand logic extin;
   logic timerint;
