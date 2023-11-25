@@ -22,7 +22,7 @@ reg                          rst_n;
 
 // ===================================================================
 // testcase
-`include "./tc/testcase.sv"
+`include "./tc/tc_1.sv"
 
 // ===================================================================
 // fsdb
@@ -33,6 +33,7 @@ end
 
 // ===================================================================
 // clk & rstn
+parameter PERIOD_CLK = 1000/50;
 always #(PERIOD_CLK/2) clk = ~clk;
 initial begin
   clk                        = 1'b0;
@@ -41,15 +42,16 @@ initial begin
   # 100 rst_n = 1'b1;
 end
 
+reg en;
+reg [3:0] max;
+wire [3:0] cnt;
 // ===================================================================
 // dut instance
-rtl#(
-  .ADDR_WIDTH                (ADDR_WIDTH                ),
-  .ADDR_WIDTH                (ADDR_WIDTH                ),
-  .CNT_WIDTH                 (CNT_WIDTH                 )
-) dut (
-  .aempty_th                 (aempty_th                 ),
-  .aempty                    (aempty                    ),
+cnt_v1 dut (
+  .clk                       (clk                       ),
+  .rstn                      (rst_n                     ),
+  .en                        (en                        ),
+  .max                       (max                       ),
   .cnt                       (cnt                       )
 );
 
