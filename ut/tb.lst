@@ -1,2 +1,1 @@
-../rtl/cnt_v1.v
-./tb.sv
+../../common/8ut/tb.lst
