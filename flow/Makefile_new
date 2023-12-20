@@ -1,0 +1,84 @@
+include ./cfg_new.mk
+export SHELL :=/bin/bash
+
+#SEED = `date +%N`
+ifeq (${random}, on)
+export SIM_DIR = ${testname}_${SEED}
+else
+export SIM_DIR = ${testname}
+endif
+
+VCS_COMP_OPTS := +v2k -full64 -sverilog -timescale=1ns/1ns
+VCS_COMP_OPTS += -cpp g++-4.8 -cc gcc-4.8 -LDFLAGS -Wl,--no-as-needed -lpthread
+VCS_COMP_OPTS += -o simv #-fsdb
+VCS_COMP_OPTS += +plusarg_save -debug_access+all #-debug_all -debug_pp
+VCS_COMP_OPTS += +vcs+lic+waity +lint=TFIPC-L
+VCS_COMP_OPTS += -top ${TB_TOP_NAME}
+VCS_COMP_OPTS += +notimingchek +nospecify #+nospecif
+VCS_COMP_OPTS += +fsdb+autoflush +vcs+flush+all #-R
+VCS_COMP_OPTS += ${novas_args}
+VCS_COMP_OPTS += #+ntb_opts uvm-1.2 #+ntb_opts check
+VCS_COMP_OPTS += ${UVM_HOME}/src/dpi/uvm_dpi.cc -CFLAGS -DVCS
+VCS_COMP_OPTS += +incdir+${UVM_HOME}/src ${UVM_HOME}/src/uvm.sv
+VCS_COMP_OPTS += ${FILELIST}
+VCS_COMP_OPTS += -cm_name simv -cm_dir ./coverage
+VCS_COMP_OPTS += -cm line+tgl+cond+fsm+branch+assert
+VCS_COMP_OPTS += +acc +vpi
+VCS_COMP_OPTS += +define+UVM_OBJECT_MUST_HAVE_CONSTRUCTOR
+VCS_COMP_OPTS += -l logs/comp.log
+
+VCS_SIM_OPTS := -cm line+tgl+fsm+cond+branch+assert
+VCS_SIM_OPTS += +UVM_TESTNAME=${testname}
+VCS_SIM_OPTS += +UVM_VERBOSITY=${uvm_verbo}
+VCS_SIM_OPTS += +verbose=1
+VCS_SIM_OPTS += +UVM_TR_RECORD +UVM_LOG_RECORD
+VCS_SIM_OPTS += -l logs/sim.log
+#VCS_SIM_OPTS += -ucli -i ${COMMON}/ver.tcl
+ifeq (${random}, on)
+VCS_SIM_OPTS += +ntb_random_seed=${SEED}
+endif
+ifeq (${fsdb}, on)
+VCS_SIM_OPTS += +FSDB_ON=1;
+endif
+
+VERDI_OPTS := +v2k -lca -nologo -sv
+VERDI_OPTS += -ssf wave/${TB_TOP_NAME}.fsdb
+VERDI_OPTS += -top ${TB_TOP_NAME}
+VERDI_OPTS += ${FILELIST}
+VERDI_OPTS += -ntb_opts uvm
+VERDI_OPTS += +incdir+@{UVM_HOME}/src ${UVM_HOME}/src/uvm.sv
+VERDI_OPTS += -logfile verdi.log
+
+
+prep:
+	mkdir -p ${SIM_DIR} && \
+	cd ${SIM_DIR} && \
+	mkdir -p logs && \
+	mkdir -p wave
+
+comp:
+	cd ${SIM_DIR} && \
+	vcs ${VCS_COMP_OPTS}
+
+sim:
+	cd ${SIM_DIR} && \
+	./simv ${VCS_SIM_OPTS}
+
+vd:
+	cd ${SIM_DIR} && \
+	verdi ${VERDI_OPTS} &
+
+cov:
+	cd ${SIM_DIR} && \
+	verdi -cov -covdir coverage.vdb &
+	#dve -full64 -covdir coverage.vdb &
+
+all: prep comp sim
+
+regr:
+	for i in ${TESTNAMES}; do \
+		make all testname=$$i; \
+	done
+
+merge:
+	urg -full64 -format both -dir *_test/*.vdb -dbname merged.vdb #-elfile exclusion.el -excl_bypass_checks
