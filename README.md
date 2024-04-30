@@ -1,6 +1,8 @@
 # bt_timer  # bt is short for Block Test
 apb-timer verification based on UVM
 
+This project is still not complete and has bugs, be careful ...
+
 only compile and simulate:
   - cd ./flow
   - modifiy cfg_new.mk
